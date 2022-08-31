@@ -1,12 +1,14 @@
 <template>
+  <section v-if="isLoading">...Loading</section>
+  <section v-if="isError">...Error</section>
   <section>
     <ul>
-      <li v-for="task in data" :key="task.id">
-        <input type="checkbox" @change="changeTaskStatus" :id="task.title" />
-        <label :for="task.title">{{ task.title }}</label>
+      <li v-for="task in tasks" :key="task.id">
+        {{ task.title }}
+        <button>>></button>
       </li>
     </ul>
-    <AppTodoInput @tasks-updated="console.log('hi')" />
+    <AppTodoInput @tasks-updated="createTask" />
   </section>
 </template>
 
@@ -14,14 +16,18 @@
   import { getTasks } from '@/services/api';
   import type { Task } from '@/services/model';
   import type { AxiosError } from 'axios';
+  import { ref, watch } from 'vue';
   import { useQuery } from 'vue-query';
 
   const { isLoading, isError, data } = useQuery<Task[], AxiosError>('tasks', getTasks);
-  const temp = () => {
-    refetch();
-  };
-  const changeTaskStatus = (e: Event) => {
-    console.log((e.target as HTMLInputElement).checked);
+  const tasks = ref<Task[]>([]);
+  // const isEditMode = ref(false);
+  watch(data, (newData) => {
+    tasks.value = newData || [];
+  });
+
+  const createTask = (task: Task) => {
+    tasks.value.push(task);
   };
 </script>
 

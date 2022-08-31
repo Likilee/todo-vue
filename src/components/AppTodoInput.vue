@@ -11,7 +11,7 @@
   const { isLoading, isError, mutate } = useMutation((newTask: Task) => createTasks(newTask));
 
   interface Emits {
-    (event: 'tasks-updated'): void;
+    (event: 'tasks-updated', task: Task): void;
   }
   const emits = defineEmits<Emits>();
 
@@ -19,15 +19,17 @@
 
   const addTask = (e: Event) => {
     const title = (e.target as HTMLInputElement).value;
-    mutate({
+    const newTask: Task = {
       id: new Date().toString(),
       title,
       description: '',
       status: 'todo',
-    });
+    };
+
+    mutate(newTask);
 
     input.value = '';
-    emits('tasks-updated');
+    emits('tasks-updated', newTask);
   };
 </script>
 
