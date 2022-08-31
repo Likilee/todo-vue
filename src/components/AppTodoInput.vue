@@ -3,12 +3,8 @@
 </template>
 
 <script setup lang="ts">
-  import { createTasks } from '@/services/api';
   import type { Task } from '@/services/model';
   import { ref } from 'vue';
-  import { useMutation } from 'vue-query';
-
-  const { isLoading, isError, mutate } = useMutation((newTask: Task) => createTasks(newTask));
 
   interface Emits {
     (event: 'tasks-updated', task: Task): void;
@@ -25,11 +21,8 @@
       description: '',
       status: 'todo',
     };
-
-    mutate(newTask);
-
-    input.value = '';
     emits('tasks-updated', newTask);
+    input.value = '';
   };
 </script>
 
