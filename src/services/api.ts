@@ -5,6 +5,14 @@ interface getTasksPrams {
   status: TaskStatus;
 }
 
+export const getTaskById = async (id: string) => {
+  return (
+    await axios.get(`/tasks/${id}`, {
+      responseType: 'json',
+    })
+  ).data as Task;
+};
+
 export const getTasks = async (params?: getTasksPrams) => {
   return (
     await axios.get('/tasks', {

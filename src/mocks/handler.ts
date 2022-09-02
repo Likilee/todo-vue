@@ -14,6 +14,13 @@ export const handlers = [
     return res(ctx.status(200), ctx.json(tasks));
   }),
 
+  rest.get('/tasks/:id', (req, res, ctx) => {
+    const { id } = req.params;
+    const allTasks = tasksRepo.get() || [];
+    const matched = allTasks.find((task) => task.id === id);
+    if (matched) return res(ctx.status(200), ctx.json(matched));
+    else return res(ctx.status(404));
+  }),
   // Create a task
   rest.post('/tasks', async (req, res, ctx) => {
     const newTask: Task = await req.json();

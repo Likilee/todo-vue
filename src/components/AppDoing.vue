@@ -20,7 +20,7 @@
   import type { TaskStatus } from '@/services/model';
   import useUpdateTask from '@/services/useUpdateTask';
   import { computed, ref, watch } from 'vue';
-  import { useQuery, useMutation } from 'vue-query';
+  import { useQuery } from 'vue-query';
 
   const { isLoading, isError, data } = useQuery('get-task-doing', async () =>
     getTasks({ status: 'doing' })
@@ -32,8 +32,11 @@
   });
 
   const text = ref('');
-  watch(data, (newValue) => {
-    text.value = newValue ? newValue[0].description : '';
+  watch(data, (nv) => {
+    console.log('HERE');
+    if (nv && nv[0]) {
+      text.value = nv[0].description || '';
+    }
   });
 
   watch(text, (nv) => {
@@ -45,6 +48,7 @@
         },
       });
   });
+
   const changeTaskStatus = (status: TaskStatus) => {
     doingTask.value && updateTask.mutate({ id: doingTask.value.id, options: { status } });
   };
