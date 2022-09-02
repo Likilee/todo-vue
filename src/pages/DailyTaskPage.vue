@@ -1,8 +1,10 @@
 <template>
   <div id="title">
-    <AppLink name="daily-task-todo"><button>To Do</button></AppLink>
-    <AppLink name="daily-task-doing"><button>Doing</button></AppLink>
-    <AppLink name="daily-task-done"><button>Done</button></AppLink>
+    <div id="subroute-button-group">
+      <AppLink name="daily-task-todo"><button>To Do</button></AppLink>
+      <AppLink name="daily-task-doing"><button>Doing</button></AppLink>
+      <AppLink name="daily-task-done"><button>Done</button></AppLink>
+    </div>
     <button @click="handleOnClick">Get</button>
     <RouterView />
   </div>
@@ -14,7 +16,7 @@
   import { getTasks } from '@/services/api';
 
   const handleOnClick = async () => {
-    const data = await getTasks();
+    const data = await getTasks({ status: 'todo' });
     console.log(data);
   };
 </script>

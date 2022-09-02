@@ -25,3 +25,5 @@ export interface Task {
   description: string;
   status: TaskStatus;
 }
+
+export type TaskUpdateOptions = Partial<Omit<Task, 'id'>>;

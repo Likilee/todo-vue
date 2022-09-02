@@ -2,58 +2,97 @@
   <button @click="() => (isEditMode = !isEditMode)">
     {{ isEditMode ? 'Edit Mode' : 'View Mode' }}
   </button>
-  <section>
+  <div v-if="isLoading">... Loading</div>
+  <div v-else-if="isError">... Error</div>
+  <section v-else>
     <ul>
-      <li v-for="task in todoTasks" :key="task.id">
-        <button v-show="isEditMode" @click="removeTask(task.id)">delete</button>
-        <select @change="(e) => changeTaskPriority(task.id, e)">
-          <option v-for="priority in taskPriorities" :key="priority">{{ priority }}</option>
+      <li v-for="task in sortedTasks" :key="task.id">
+        <button v-show="isEditMode" @click="removeTask.mutate(task.id)">delete</button>
+        <select @change="(e) => changeTaskPriority(task.id, e)" id="priorities">
+          <option>{{ DEFAULT_PRIORITY }}</option>
+          <option
+            v-for="priority in taskPriorities"
+            :key="priority"
+            :selected="task.priority === priority"
+            v-show="task.priority !== priority && restSelectableOptions.includes(priority)"
+          >
+            {{ priority }}
+          </option>
         </select>
         <span>{{ task.title }}</span>
-        <button @click="changeTaskStatus(task.id, 'doing')" :disabled="isAlreadyDoingTask">
+        <button @click="() => changeTaskStatus(task.id, 'doing')" :disabled="doingTaskExist">
           >>
         </button>
       </li>
     </ul>
-    <AppTodoInput @tasks-updated="createTask" />
+    <AppTodoInput @tasks-updated="createTask.mutate" />
   </section>
 </template>
 
 <script setup lang="ts">
-  import { getTasks } from '@/services/api';
-  import type { Task, TaskStatus, TaskPriority } from '@/services/model';
-  import { taskPriorities } from '@/services/model';
-  import type { AxiosError } from 'axios';
   import { ref, computed } from 'vue';
+  import type { TaskStatus, TaskPriority } from '@/services/model';
+  import { taskPriorities } from '@/services/model';
+  import { useQuery } from 'vue-query';
+  import { getTasks } from '@/services/api';
+  import useCreateTask from '@/services/useCreateTask';
+  import useRemoveTask from '@/services/useRemoveTask';
+  import useUpdateTask from '@/services/useUpdateTask';
 
-  // States
-  const tasks = ref<Task[]>([]);
-  const todoTasks = computed(() => {
-    return tasks.value.filter((task) => task.status === 'todo');
+  const {
+    isLoading,
+    isError,
+    data: tasks,
+  } = useQuery('tasks', async () => getTasks({ status: 'todo' }), {
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+  });
+
+  const createTask = useCreateTask();
+  const removeTask = useRemoveTask();
+  const updateTask = useUpdateTask();
+
+  const sortedTasks = computed(() => {
+    return (tasks.value || [])
+      .filter((task) => task.status === 'todo')
+      .sort((a, b) => {
+        if (a.priority && b.priority) {
+          if (a.priority > b.priority) return 1;
+          else return -1;
+        } else if (!a.priority) {
+          return 1;
+        } else {
+          return -1;
+        }
+      });
   });
   const isEditMode = ref(false);
-  const isAlreadyDoingTask = computed(() => {
-    return tasks.value.find(({ status }) => status === 'doing') ? true : false;
+  const doingTaskExist = computed(() => {
+    return (tasks.value || []).findIndex(({ status }) => status === 'doing') ? true : false;
   });
 
-  // Handler
-  const createTask = (task: Task) => {
-    tasks.value.push(task);
-  };
-
-  const removeTask = (taskId: string) => {
-    tasks.value = tasks.value.filter((task) => task.id !== taskId);
-  };
+  const restSelectableOptions = computed(() => {
+    const selectedOptions = sortedTasks.value.map(({ priority }) => priority);
+    return taskPriorities.filter((option) => !selectedOptions.includes(option));
+  });
 
   const changeTaskStatus = (taskId: string, status: TaskStatus) => {
-    const targetTask = tasks.value.find(({ id }) => id === taskId);
-    targetTask ? (targetTask.status = status) : null;
+    updateTask.mutate({ id: taskId, options: { status } });
   };
 
+  const DEFAULT_PRIORITY = '-priority-';
+
   const changeTaskPriority = (taskId: string, e: Event) => {
-    const targetTask = tasks.value.find(({ id }) => id === taskId);
-    const priority = (e.target as HTMLSelectElement).value as TaskPriority;
-    targetTask ? (targetTask.priority = priority) : null;
+    const targetTask = sortedTasks.value.find(({ id }) => id === taskId);
+    if (!targetTask) return;
+    const priority = (e.target as HTMLSelectElement).value as
+      | TaskPriority
+      | typeof DEFAULT_PRIORITY;
+    console.log('Prir', priority);
+    updateTask.mutate({
+      id: taskId,
+      options: { priority: priority === DEFAULT_PRIORITY ? undefined : priority },
+    });
   };
 </script>
 

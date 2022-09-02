@@ -5,6 +5,7 @@
 <script setup lang="ts">
   import type { Task } from '@/services/model';
   import { ref } from 'vue';
+  import { v4 as uuidV4 } from 'uuid';
 
   interface Emits {
     (event: 'tasks-updated', task: Task): void;
@@ -16,7 +17,7 @@
   const addTask = (e: Event) => {
     const title = (e.target as HTMLInputElement).value;
     const newTask: Task = {
-      id: new Date().toString(),
+      id: uuidV4(),
       title,
       description: '',
       status: 'todo',
