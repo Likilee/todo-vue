@@ -39,18 +39,11 @@
   import useRemoveTask from '@/services/useRemoveTask';
   import useUpdateTask from '@/services/useUpdateTask';
 
-  const {
-    isLoading,
-    isError,
-    data: tasks,
-  } = useQuery('tasks', async () => getTasks({ status: 'todo' }), {
-    refetchOnMount: false,
-    refetchOnWindowFocus: false,
-  });
+  const { isLoading, isError, data: tasks } = useQuery('get-tasks', async () => getTasks());
 
-  const createTask = useCreateTask();
-  const removeTask = useRemoveTask();
-  const updateTask = useUpdateTask();
+  const createTask = useCreateTask('get-tasks');
+  const removeTask = useRemoveTask('get-tasks');
+  const updateTask = useUpdateTask('get-tasks');
 
   const sortedTasks = computed(() => {
     return (tasks.value || [])
@@ -68,7 +61,8 @@
   });
   const isEditMode = ref(false);
   const doingTaskExist = computed(() => {
-    return (tasks.value || []).findIndex(({ status }) => status === 'doing') ? true : false;
+    if (tasks.value && tasks.value.find(({ status }) => status === 'doing')) return true;
+    return false;
   });
 
   const restSelectableOptions = computed(() => {

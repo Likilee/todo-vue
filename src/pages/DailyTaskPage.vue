@@ -16,7 +16,7 @@
   import { getTasks } from '@/services/api';
 
   const handleOnClick = async () => {
-    const data = await getTasks({ status: 'todo' });
+    const data = await getTasks();
     console.log(data);
   };
 </script>

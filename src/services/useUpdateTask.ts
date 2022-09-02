@@ -3,8 +3,7 @@ import type { AxiosError } from 'axios';
 import { useMutation, useQueryClient } from 'vue-query';
 import type { Task } from './model';
 
-const useUpdateTask = () => {
-  const querykey = 'tasks';
+const useUpdateTask = (querykey: string) => {
   const queryClient = useQueryClient();
 
   return useMutation((task: UpdateTasksParams) => updateTask(task), {

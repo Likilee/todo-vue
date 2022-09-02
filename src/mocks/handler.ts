@@ -5,14 +5,6 @@ import Repository from '@/mocks/repository';
 
 const tasksRepo = new Repository<Task[]>('tasks');
 
-const tasksMock: Task[] = [
-  {
-    id: '000',
-    title: '임시 데이터',
-    description: '',
-    status: 'doing',
-  },
-];
 export const handlers = [
   // Get All tasks
   rest.get('/tasks', async (req, res, ctx) => {
