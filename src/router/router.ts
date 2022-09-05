@@ -1,4 +1,5 @@
-import DailyTaskPage from '@/pages/DailyTaskPage.vue';
+import DailyTask2 from '@/pages/DailyTask/DailyTask2.vue';
+import DailyTask from '@/pages/DailyTask/DailyTask.vue';
 import { createRouter, createWebHistory, type RouteRecordRaw } from 'vue-router';
 import AppTodo from '@/components/AppTodo.vue';
 import AppDoing from '@/components/AppDoing.vue';
@@ -18,7 +19,7 @@ const routes: AppRouteRecordRaw[] = [
   {
     name: 'daily-task',
     path: '/',
-    component: DailyTaskPage,
+    component: DailyTask2,
     children: [
       {
         name: 'daily-task-todo',
