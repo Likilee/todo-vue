@@ -1,26 +1,23 @@
 <template>
   <input
     type="text"
-    v-modle="text"
-    @keyup.enter="
+    v-model="text"
+    @change="
       (e) => {
-        onSubmit(e);
+        addTask(e);
         text = '';
       }
     "
-    :placeholder="placeholder"
   />
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
   import { ref } from 'vue';
 
   const text = ref('');
-
   const props = defineProps<{
-    placeholder: string;
-    onSubmit: (e: Event) => void;
+    addTask: (e: Event) => void;
   }>();
 </script>
 
-<style scoped lang="scss"></style>
+<style lang="scss"></style>

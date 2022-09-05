@@ -29,10 +29,12 @@ export const handlers = [
     return res(ctx.status(201));
   }),
 
+  // Update a task
   rest.put('/tasks', async (req, res, ctx) => {
     const { id, options } = (await req.json()) as UpdateTasksParams;
     const tasks = tasksRepo.get() || [];
     const index = tasks.findIndex((task) => task.id === id);
+    console.log('Update Task Handler', options);
     if (index >= 0) {
       tasks[index] = { ...tasks[index], ...options };
       tasksRepo.set(tasks);
