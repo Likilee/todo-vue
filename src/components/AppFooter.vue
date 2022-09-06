@@ -1,15 +1,20 @@
 <template>
   <footer>
-    <h3>&copy;copy rights all reserved 어쩌구</h3>
+    <h4>&copy; 2022 . kilee . All rights reserved</h4>
   </footer>
 </template>
 
 <script setup lang="ts"></script>
 
 <style scoped>
+  h4 {
+    text-align: center;
+    margin: auto;
+  }
+
   footer {
     padding: 10px;
-    text-align: center;
+    display: flex;
     background-color: aliceblue;
   }
 </style>

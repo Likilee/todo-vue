@@ -1,10 +1,10 @@
 <template>
-  <div id="title">
-    <div id="subroute-button-group">
-      <AppButton @click="mode = 'todo'">To do</AppButton>
-      <AppButton @click="mode = 'doing'">Doing</AppButton>
-      <AppButton @click="mode = 'done'">Done</AppButton>
-    </div>
+  <main>
+    <nav>
+      <AppButton :class="mode === 'todo' && 'active'" @click="mode = 'todo'">To do</AppButton>
+      <AppButton :class="mode === 'doing' && 'active'" @click="mode = 'doing'">Doing</AppButton>
+      <AppButton :class="mode === 'done' && 'active'" @click="mode = 'done'">Done</AppButton>
+    </nav>
     <TodoTasks
       v-if="mode === 'todo'"
       :tasks="todoTasks"
@@ -12,7 +12,7 @@
     ></TodoTasks>
     <DoingTask v-else-if="mode === 'doing'" :doing-task="doingTask"></DoingTask>
     <DoneTasks v-else :done-tasks="doneTasks"></DoneTasks>
-  </div>
+  </main>
 </template>
 
 <script setup lang="ts">
@@ -78,7 +78,7 @@
     removeTaskMutation.mutate(id);
   };
 
-  const DEFAULT_PRIORITY = '-priority-';
+  const DEFAULT_PRIORITY = '✔️';
 
   const changeTaskPriority = (taskId: string, e: Event) => {
     const targetTask = todoTasks.value.find(({ id }) => id === taskId);
@@ -109,11 +109,31 @@
   });
 </script>
 
-<style scoped>
-  #title {
-    text-align: center;
+<style lang="scss" scoped>
+  main {
+    position: relative;
   }
+  nav {
+    display: flex;
+    height: 40px;
+    justify-content: center;
+    background-color: #d7c0ae;
+    // border-top: 1px solid #967e76;
+    margin-bottom: 20px;
 
+    button {
+      margin: 0 px;
+      flex: auto;
+      border: none;
+      border-radius: 5px 5px 0 0;
+      &:hover {
+        background-color: #b7c4cf;
+      }
+      &.active {
+        background-color: #eee3cb;
+      }
+    }
+  }
   ul {
     list-style-type: none;
   }

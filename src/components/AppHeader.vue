@@ -1,6 +1,6 @@
 <template>
   <header>
-    <h1>{{ title }}</h1>
+    <h2>{{ title }}</h2>
   </header>
 </template>
 
@@ -12,12 +12,13 @@
 </script>
 
 <style scoped>
-  h1 {
+  h2 {
     text-align: center;
+    margin: auto;
   }
 
   header {
-    padding: 10px;
-    background-color: aliceblue;
+    display: flex;
+    height: 60px;
   }
 </style>
