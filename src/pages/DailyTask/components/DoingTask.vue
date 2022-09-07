@@ -7,8 +7,9 @@
       <button @click="saveMemo">Save</button>
     </div>
     <div>
-      <button @click="() => changeTaskStatus(doingTask.id, 'todo')">{{ '<< To do' }}</button>
-      <button @click="() => changeTaskStatus(doingTask.id, 'done')">{{ 'Done >>' }}</button>
+      <!-- 😀doingTask 타입체킹 안되는 이유 확인 필요 -->
+      <button @click="changeTaskStatus(doingTask.id, 'todo')">{{ '👈 To do' }}</button>
+      <button @click="changeTaskStatus(doingTask.id, 'done')">{{ 'Done 👉' }}</button>
     </div>
   </div>
   <div v-else>진행중인 업무가 없어요!!</div>
@@ -16,14 +17,20 @@
 
 <script setup lang="ts">
   import { taskMutationKey } from '@/keys';
-  import type { Task } from '@/services/model';
+  import type { Task, TaskStatus, TaskUpdateOptions } from '@/services/model';
   import { ref, inject, onMounted } from 'vue';
 
   const props = defineProps<{
-    doingTask: Task | null;
+    doingTask?: Task;
   }>();
 
-  const { updateTask, changeTaskStatus } = inject(taskMutationKey);
+  const { updateTask, changeTaskStatus } = inject(taskMutationKey) as {
+    addTask: (e: Event) => void;
+    deleteTask: (id: string) => void;
+    changeTaskStatus: (taskId: string, status: TaskStatus) => void;
+    changeTaskPriority: (taskId: string, e: Event) => void;
+    updateTask: (id: string, options: TaskUpdateOptions) => void;
+  };
 
   const memo = ref('');
 
@@ -34,7 +41,7 @@
 
   //❓ Save 버튼을 만들지않고 Description을 변경할 때마다 저장되도록 하고싶다.
   const saveMemo = () => {
-    updateTask(props.doingTask?.id, { description: memo.value });
+    props.doingTask && updateTask(props.doingTask.id, { description: memo.value });
   };
 </script>
 

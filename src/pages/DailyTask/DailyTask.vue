@@ -1,12 +1,14 @@
 <template>
   <main>
     <!-- ❓ 버튼 그룹에서 active 클래스를 부여하는 더 적절한 방법이 있을까요? -->
+    <!-- 😀 Computed 를 사용해서 개선할 수 있다. 지원님이 강의 공유 예쩡-->
     <nav>
       <AppButton :class="mode === 'todo' && 'active'" @click="mode = 'todo'">To do</AppButton>
       <AppButton :class="mode === 'doing' && 'active'" @click="mode = 'doing'">Doing</AppButton>
       <AppButton :class="mode === 'done' && 'active'" @click="mode = 'done'">Done</AppButton>
     </nav>
     <!-- ❓ Dynamic component 기능을 사용해서 개선할 여지가 있을까요? 개선 한다면 어떤식으로 가능한가요 -->
+    <!-- 😀 Sam-ui 에서는 Organizm 이상 단위의 컴포넌트에서만 데이터 의존성이 생기도록 하는 컨벤션을 정했다. -->
     <TodoTasks
       v-if="mode === 'todo'"
       :tasks="todoTasks"

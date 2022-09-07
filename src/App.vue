@@ -30,7 +30,7 @@
 
   #container {
     margin: 5vh auto;
-    width: 720px;
+    width: 600px;
     display: flex;
     flex-direction: column;
     min-height: 90vh;
