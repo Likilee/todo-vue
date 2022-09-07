@@ -34,16 +34,9 @@
 </template>
 
 <script setup lang="ts">
-  import AppButton from '@/components/Button/AppButton.vue';
   import type { Task } from '@/services/model';
   import { taskPriorities } from '@/services/model';
   import { computed, inject, ref } from 'vue';
-  import AppList from '@/components/List/AppList.vue';
-  import AppListItem from '@/components/List/AppListItem.vue';
-  import AppListItemText from '@/components/List/AppListItemText.vue';
-  import AppSelect from '@/components/Select/AppSelect.vue';
-  import AppSelectOption from '@/components/Select/AppSelectOption.vue';
-  import AppInputText from '@/components/Inputs/AppInputText.vue';
   import { taskMutationKey } from '@/keys';
 
   const { addTask, deleteTask, changeTaskStatus, changeTaskPriority } = inject(taskMutationKey);
@@ -82,6 +75,7 @@
     width: 100%;
     height: 100%;
   }
+
   .input {
     margin: auto;
     padding: 0 10px;
@@ -91,10 +85,12 @@
     font-size: large;
     border: 0px solid black;
     border-radius: 10px;
+
     &:focus {
       outline: 3px solid #b7c4cf;
     }
   }
+
   .dial {
     height: 60px;
     width: 60px;
@@ -128,21 +124,25 @@
       border: 3px solid #d7c0ae;
       border-radius: 10px;
       background-color: #d7c0ae;
+
       &:first-child {
         border: 3px solid #b7c4cf;
         background-color: #b7c4cf;
         font-weight: bold;
       }
+
       &__button {
         height: 40px;
         width: 40px;
         border: 3px solid #967e76;
         border-radius: 120px;
         background-color: #967e76;
+
         &:hover {
           background-color: #b7c4cf;
           border-color: #b7c4cf;
         }
+
         &:disabled {
           background-color: #d7c0ae;
           border-color: #d7c0ae;
@@ -156,6 +156,7 @@
         border: 3px solid #b7c4cf;
         border-radius: 5px;
         border: 3px solid #967e76;
+
         &:hover {
           background-color: #b7c4cf;
           border-color: #b7c4cf;

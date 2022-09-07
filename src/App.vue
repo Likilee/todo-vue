@@ -1,4 +1,5 @@
 <template>
+  <!-- ❓ 레이아웃 css를 위해 적용한 컨테이너 입니다. 컨테이너로 묶지 않고, #app 엘리먼트에 css를 적용하는게 더 좋은 방식일까요? -->
   <div id="container">
     <AppHeader id="header" title="Priority Tasks" />
     <RouterView id="main" />
@@ -7,12 +8,12 @@
 </template>
 
 <script setup lang="ts">
-  import AppHeader from '@/components/AppHeader.vue';
-  import AppFooter from '@/components/AppFooter.vue';
   import { RouterView } from 'vue-router';
 </script>
 
-❓ Base 스타일 적용을 위해 루트 컴포넌트의 style 태그의 scope 속성을1111
+❓ Base 스타일 적용을 위해 루트 컴포넌트의 style 태그의 scope 속성을 제거하였습니다. 이렇게 하면
+모든 컴포넌트에 스타일이 적용되는데, 이렇게 하면 안되는 이유가 있을까요? ❓ base.scss 파일을 별도로
+분리해서 사용하는 방식이 더 적합한가요?
 <style lang="scss">
   html * {
     margin: 0;

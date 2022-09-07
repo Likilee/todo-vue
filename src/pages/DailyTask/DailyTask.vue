@@ -20,15 +20,14 @@
   import { computed, provide, ref } from 'vue';
   import { useQuery } from 'vue-query';
   import type { Task, TaskPriority, TaskStatus, TaskUpdateOptions } from '@/services/model';
-  import AppButton from '@/components/Button/AppButton.vue';
-  import TodoTasks from './components/TodoTasks.vue';
-  import DoingTask from './components/DoingTask.vue';
   import useCreateTask from '@/services/useCreateTask';
   import useRemoveTask from '@/services/useRemoveTask';
   import useUpdateTask from '@/services/useUpdateTask';
   import { v4 as uuidV4 } from 'uuid';
   import { taskMutationKey } from '@/keys';
-  import DoneTasks from './components/DoneTasks.vue';
+  import TodoTasks from '@/pages/DailyTask/components/TodoTasks.vue';
+  import DoingTask from '@/pages/DailyTask/components/DoingTask.vue';
+  import DoneTasks from '@/pages/DailyTask/components/DoneTasks.vue';
 
   const { isLoading, isError, data } = useQuery('get-tasks', async () => getTasks());
   const createTaskMutation = useCreateTask('get-tasks');
@@ -118,7 +117,6 @@
     height: 40px;
     justify-content: center;
     background-color: #d7c0ae;
-    // border-top: 1px solid #967e76;
     margin-bottom: 20px;
 
     button {

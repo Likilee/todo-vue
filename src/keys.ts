@@ -1,5 +1,5 @@
 import type { InjectionKey } from 'vue';
-import type { Task, TaskStatus, TaskUpdateOptions } from './services/model';
+import type { TaskStatus, TaskUpdateOptions } from './services/model';
 
 export const taskMutationKey = Symbol() as InjectionKey<{
   addTask: (e: Event) => void;
