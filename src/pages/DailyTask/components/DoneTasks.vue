@@ -1,9 +1,11 @@
 <template>
-  <AppList>
-    <AppListItem v-for="task in doneTasks" :key="task.id">
-      <AppListItemText>{{ task.title }} </AppListItemText>
-    </AppListItem>
-  </AppList>
+  <div class="container">
+    <AppList>
+      <AppListItem v-for="task in doneTasks" :key="task.id">
+        <AppListItemText>{{ task.title }} </AppListItemText>
+      </AppListItem>
+    </AppList>
+  </div>
 </template>
 
 <script setup lang="ts">
@@ -17,4 +19,13 @@
   }>();
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+  }
+</style>

@@ -1,5 +1,5 @@
 <template>
-  <RouterLink :to="props"><slot /> </RouterLink>
+  <RouterLink :to="props"><slot></slot></RouterLink>
 </template>
 
 <script setup lang="ts">

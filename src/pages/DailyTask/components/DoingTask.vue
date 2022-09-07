@@ -1,8 +1,11 @@
 <template>
-  <div v-if="doingTask">
-    <div>{{ doingTask.title }}</div>
+  <!-- ❓ v-if 디렉티브 하위 엘리먼트에서 doingTask 가 nullable 로 나오는 부분 처리 어떻게 하나요? -->
+  <div class="container" v-if="doingTask">
+    <h1>{{ doingTask.title }}</h1>
     <textarea v-model="memo" placeholder="Doing Memo"></textarea>
-    <button @click="saveMemo">Save</button>
+    <div>
+      <button @click="saveMemo">Save</button>
+    </div>
     <div>
       <button @click="() => changeTaskStatus(doingTask.id, 'todo')">{{ '<< To do' }}</button>
       <button @click="() => changeTaskStatus(doingTask.id, 'done')">{{ 'Done >>' }}</button>
@@ -34,3 +37,34 @@
     updateTask(props.doingTask?.id, { description: memo.value });
   };
 </script>
+
+<style scoped lang="scss">
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+
+    h1 {
+      margin: 10px;
+      color: #967e76;
+    }
+    textarea {
+      width: 80%;
+      height: 400px;
+      padding: 10px;
+      margin: 10px auto;
+    }
+    button {
+      border: none;
+      border-radius: 10px;
+      margin: 5px;
+      width: 100px;
+      height: 40px;
+      &:hover {
+        background-color: #b7c4cf;
+      }
+    }
+  }
+</style>

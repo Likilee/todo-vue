@@ -38,14 +38,10 @@
   import { taskPriorities } from '@/services/model';
   import { computed, inject, ref } from 'vue';
   import { taskMutationKey } from '@/keys';
+  import vFocus from '@/utils/directives/Focus';
 
+  // ❓ Symbol의 Type을 잘 지정해준거 같은데 에러가 발생하네요 ㅜㅜ
   const { addTask, deleteTask, changeTaskStatus, changeTaskPriority } = inject(taskMutationKey);
-
-  const vFocus = {
-    mounted(el: HTMLElement) {
-      el.focus();
-    },
-  };
 
   const props = defineProps<{
     tasks: Task[];
@@ -159,7 +155,6 @@
 
         &:hover {
           background-color: #b7c4cf;
-          border-color: #b7c4cf;
         }
       }
     }

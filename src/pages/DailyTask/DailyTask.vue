@@ -1,10 +1,12 @@
 <template>
   <main>
+    <!-- ❓ 버튼 그룹에서 active 클래스를 부여하는 더 적절한 방법이 있을까요? -->
     <nav>
       <AppButton :class="mode === 'todo' && 'active'" @click="mode = 'todo'">To do</AppButton>
       <AppButton :class="mode === 'doing' && 'active'" @click="mode = 'doing'">Doing</AppButton>
       <AppButton :class="mode === 'done' && 'active'" @click="mode = 'done'">Done</AppButton>
     </nav>
+    <!-- ❓ Dynamic component 기능을 사용해서 개선할 여지가 있을까요? 개선 한다면 어떤식으로 가능한가요 -->
     <TodoTasks
       v-if="mode === 'todo'"
       :tasks="todoTasks"
@@ -29,7 +31,8 @@
   import DoingTask from '@/pages/DailyTask/components/DoingTask.vue';
   import DoneTasks from '@/pages/DailyTask/components/DoneTasks.vue';
 
-  const { isLoading, isError, data } = useQuery('get-tasks', async () => getTasks());
+  // ❓ Suspense 컴포넌트로 Wrapping 하여 loading을 처리
+  const { data } = useQuery('get-tasks', async () => getTasks());
   const createTaskMutation = useCreateTask('get-tasks');
   const removeTaskMutation = useRemoveTask('get-tasks');
   const updateTaskMutation = useUpdateTask('get-tasks');
